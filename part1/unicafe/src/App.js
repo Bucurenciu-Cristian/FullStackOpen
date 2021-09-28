@@ -1,24 +1,17 @@
 import React, {useState} from 'react'
 
-const Display = ({counter}) => <div>{counter}</div>;
 const Heading = ({text}) => <h1>{text}</h1>
 const Button = (props) => {
     const {handleClick, text} = props;
     return (<button onClick={handleClick}>    {text}  </button>)
 }
-const History = (props) => {
-    if (props.allClicks.length === 0) {
-        return (<div> the app is used by pressing the buttons </div>)
-    }
-    return (<div> button press history: {props.allClicks.join(' ')}    </div>)
-}
 
 
-const StatisticLine = ({text, value}) => {
+const StatisticLine = ({text, value, percent}) => {
     return (
         <tr>
             <td>{text}</td>
-            <td>{value}</td>
+            <td>{value}{percent}</td>
         </tr>
     );
 };
@@ -33,7 +26,6 @@ const Statistics = (props) => {
     if (props.good === 0 && props.neutral === 0 && props.bad === 0) {
         return (<div>No feedback given</div>);
     }
-    console.log()
     return (
         <table>
             <tbody>
@@ -42,31 +34,18 @@ const Statistics = (props) => {
             <StatisticLine text="bad" value={props.bad}/>
             <StatisticLine text="all" value={total}/>
             <StatisticLine text="average" value={average()}/>
-            <tr>
-                <td>positive</td>
-                <td> {percentage(props.good, total)}%</td>
-            </tr>
+            <StatisticLine text="positive" value={percentage(props.good, total)} percent={"%"}/>
             </tbody>
         </table>
     );
 };
 const App = () => {
-    // const [left, setLeft] = useState(0)
-    // const [right, setRight] = useState(0)
-    // const [allClicks, setAll] = useState([])
+
     const [good, setGood] = useState(0)
     const [neutral, setNeutral] = useState(0)
     const [bad, setBad] = useState(0)
 
-    // const handleLeftClick = () => {
-    //     setAll(allClicks.concat('L'))
-    //     setLeft(left + 1)
-    // }
 
-    // const handleRightClick = () => {
-    //     setAll(allClicks.concat('R'))
-    //     setRight(right + 1)
-    // }
     const handleGoodClick = () => {
         setGood(good + 1);
     };
